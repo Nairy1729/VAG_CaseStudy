@@ -1,0 +1,6 @@
+{
+  "ConnectionStrings": {
+    "LocalConnectionString": "Server=NAIRY;Database=VirtualArtGallery;Trusted_Connection=True"
+  }
+
+}
