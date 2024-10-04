@@ -80,6 +80,8 @@ namespace VirtualArtGallery.Services
                         Artwork artwork = new Artwork
                         {
                             ArtworkID = (int)reader["ArtworkID"],
+
+
                             Title = reader["Title"].ToString(),
                             Description = reader["Description"].ToString(),
                             CreationDate = reader["CreationDate"].ToString(),

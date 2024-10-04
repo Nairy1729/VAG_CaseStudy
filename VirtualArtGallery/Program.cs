@@ -1,4 +1,5 @@
-﻿using VirtualArtGallery.Modals;
+﻿using System.Diagnostics;
+using VirtualArtGallery.Modals;
 using VirtualArtGallery.Services;
 using VirtualArtGallery.util;
 namespace VirtualArtGallery
@@ -6,11 +7,14 @@ namespace VirtualArtGallery
 
     public class Program
     {
-
+        
         static void Main(string[] args)
         {
+            // Console.BackgroundColor = ConsoleColor.Cyan;
             Menu menu = new Menu();
             menu.DisplayMenu();
+
+
         }
  
     }
