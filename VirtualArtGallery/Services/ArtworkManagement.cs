@@ -70,56 +70,104 @@ namespace VirtualArtGallery.Services
         }
 
 
-        public List<Artist> GetAllArtist()
-        {
-            List<Artist> artists = new List<Artist>();
+        //public List<Artwork> GetAllArtwork()
+        //{
+        //    List<Artwork> artwork = new List<Artwork>();
 
+        //    try
+        //    {
+        //        cmd.CommandText = "SELECT * FROM Artwork";
+
+        //        if (sqlConnection.State == System.Data.ConnectionState.Closed)
+        //        {
+        //            sqlConnection.Open();
+        //        }
+
+        //        SqlDataReader reader = cmd.ExecuteReader();
+        //        while (reader.Read())
+        //        {
+        //            Artwork artwork1 = new Artwork()
+        //            {
+        //                ArtistID = (int)reader["ArtistID"],
+        //                Name = (string)reader["Name"],
+        //                Biography = (string)reader["Biography"],
+        //                BirthDate = reader["BirthDate"] != DBNull.Value
+        //                ? Convert.ToDateTime(reader["BirthDate"]).ToString("yyyy-MM-dd") 
+        //                : string.Empty ,
+        //                Nationality = reader["Nationality"] != DBNull.Value ? (string)reader["Nationality"] : string.Empty,
+        //                Website = reader["Website"] != DBNull.Value ? (string)reader["Website"] : string.Empty,
+        //                ContactInformation = reader["ContactInformation"] != DBNull.Value ? (string)reader["ContactInformation"] : string.Empty
+        //            };
+
+        //            artwork.Add(artwork1);
+        //        }
+
+        //        reader.Close();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("Error retrieving artists: " + ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        if (sqlConnection.State == System.Data.ConnectionState.Open)
+        //        {
+        //            sqlConnection.Close();
+        //        }
+        //    }
+
+        //    return artwork;
+        //}
+
+        public List<Artwork> GetArtwork()
+        {
+            List<Artwork> artwork = new List<Artwork>();
             try
             {
-                cmd.CommandText = "SELECT * FROM Artist";
+                cmd.CommandText = "SELECT * FROM Artwork";
 
-                if (sqlConnection.State == System.Data.ConnectionState.Closed)
+                // Open the connection if it's not already open
+                if (sqlConnection.State != System.Data.ConnectionState.Open)
                 {
                     sqlConnection.Open();
                 }
 
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    Artist artist = new Artist
+                    while (reader.Read())
                     {
-                        ArtistID = (int)reader["ArtistID"],
-                        Name = (string)reader["Name"],
-                        Biography = (string)reader["Biography"],
-                        BirthDate = reader["BirthDate"] != DBNull.Value
-                        ? Convert.ToDateTime(reader["BirthDate"]).ToString("yyyy-MM-dd") 
-                        : string.Empty,
+                        // Create a new Artwork object for each row
+                        Artwork artworkItem = new Artwork
+                        {
+                            ArtworkID = (int)reader["ArtworkID"],
+                            Title = reader["Title"].ToString(),
+                            Description = reader["Description"].ToString(),
+                            CreationDate = reader["CreationDate"].ToString(),
+                            Medium = reader["Medium"].ToString(),
+                            ImageURL = reader["ImageURL"].ToString(),
+                            ArtistID = (int)reader["ArtistID"]
+                        };
 
-
-                        Nationality = reader["Nationality"] != DBNull.Value ? (string)reader["Nationality"] : string.Empty,
-                        Website = reader["Website"] != DBNull.Value ? (string)reader["Website"] : string.Empty,
-                        ContactInformation = reader["ContactInformation"] != DBNull.Value ? (string)reader["ContactInformation"] : string.Empty
-                    };
-
-                    artists.Add(artist);
+                        // Add the artworkItem to the artwork list
+                        artwork.Add(artworkItem);
+                    }
                 }
-
-                reader.Close();
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error retrieving artists: " + ex.Message);
+                Console.WriteLine("An error occurred: " + ex.Message);
             }
             finally
             {
+                // Ensure the connection is closed
                 if (sqlConnection.State == System.Data.ConnectionState.Open)
                 {
                     sqlConnection.Close();
                 }
             }
-
-            return artists;
+            return artwork;
         }
+
 
         public Artwork GetArtworkById(int artworkID)
         {

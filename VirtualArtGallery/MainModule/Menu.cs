@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using VirtualArtGallery.Modals;
 using VirtualArtGallery.Services;
 
@@ -38,15 +39,18 @@ namespace VirtualArtGallery
                 switch (choice)
                 {
                     case "1":
+                        GetArtwork1();
                         AddArtwork();
                         break;
                     case "2":
                         GetArtworkById();
                         break;
                     case "3":
+                        GetArtwork1();
                         UpdateArtwork();
                         break;
                     case "4":
+                        GetArtwork1();
                         RemoveArtwork();
                         break;
                     case "5":
@@ -76,8 +80,39 @@ namespace VirtualArtGallery
             }
         }
 
+        private void GetArtwork1()
+        {
+            List<Artwork> artwork = artworkManagement.GetArtwork();
+
+            if (artwork.Count != 0)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Artwork Details:");
+                foreach (var artwork1 in artwork)
+                {
+                    Console.WriteLine($"ID: {artwork1.ArtworkID} ,Title: {artwork1.Title} ,Artist ID: {artwork1.ArtistID} ,Medium: {artwork1.Medium}");
+
+
+                }
+                Console.WriteLine(new string('_', 100));
+                Console.ResetColor();
+
+            }
+
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Artwork not found.");
+                Console.ResetColor();
+            }
+
+        }
+
+        
         private void AddArtwork()
         {
+            
+
             Console.WriteLine("Enter Artwork Details:");
             Console.Write("Artwork ID: ");
             int artworkID = int.Parse(Console.ReadLine());
@@ -131,6 +166,35 @@ namespace VirtualArtGallery
                 Console.ResetColor();
             }
             
+
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Artwork not found.");
+                Console.ResetColor();
+            }
+        }
+
+        private void GetArtwork()
+        {
+            Console.Write("Enter Artwork ID: ");
+            int artworkID = int.Parse(Console.ReadLine());
+            Artwork artwork = artworkManagement.GetArtworkById(artworkID);
+
+            if (artwork != null)
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("Artwork Details:");
+                Console.WriteLine($"ID: {artwork.ArtworkID}");
+                Console.WriteLine($"Title: {artwork.Title}");
+                Console.WriteLine($"Description: {artwork.Description}");
+                Console.WriteLine($"Creation Date: {artwork.CreationDate}");
+                Console.WriteLine($"Medium: {artwork.Medium}");
+                Console.WriteLine($"Image URL: {artwork.ImageURL}");
+                Console.WriteLine($"Artist ID: {artwork.ArtistID}");
+                Console.ResetColor();
+            }
+
 
             else
             {
