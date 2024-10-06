@@ -15,6 +15,8 @@ namespace VirtualArtGallery.Services
         SqlConnection sqlConnection = null;
         SqlCommand cmd = null;
 
+        ArtistManagement art = new ArtistManagement();
+
         public UserFav()
         {
             sqlConnection = DBConnection.GetConnection("C:\\Users\\nairy\\source\\repos\\VAG\\VirtualArtGallery\\util\\dbconfig.json");

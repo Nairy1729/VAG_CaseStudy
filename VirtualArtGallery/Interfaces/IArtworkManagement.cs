@@ -15,5 +15,7 @@ namespace VirtualArtGallery.Interfaces
         Artwork GetArtworkById(int artworkID);
         List<Artwork> SearchArtworks(string keyword);
 
+        public string GetArtistNameByArtworkId(int artworkID);
+
     }
 }

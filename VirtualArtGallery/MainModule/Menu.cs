@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using VirtualArtGallery.Modals;
 using VirtualArtGallery.Services;
+using VirtualArtGallery.myexceptions;
 
-namespace VirtualArtGallery
+namespace VirtualArtGallery.MainModule
 {
     class Menu
     {
@@ -80,6 +81,7 @@ namespace VirtualArtGallery
             }
         }
 
+        ArtistManagement art = new ArtistManagement();
         private void GetArtwork1()
         {
             List<Artwork> artwork = artworkManagement.GetArtwork();
@@ -90,7 +92,7 @@ namespace VirtualArtGallery
                 Console.WriteLine("Artwork Details:");
                 foreach (var artwork1 in artwork)
                 {
-                    Console.WriteLine($"ID: {artwork1.ArtworkID} ,Title: {artwork1.Title} ,Artist ID: {artwork1.ArtistID} ,Medium: {artwork1.Medium}");
+                    Console.WriteLine($"ID: {artwork1.ArtworkID} , Title: {artwork1.Title} , Artist Name: {art.GetArtistNameByArtworkID(artwork1.ArtworkID)} , Medium: {artwork1.Medium}");
 
 
                 }
@@ -161,8 +163,7 @@ namespace VirtualArtGallery
                 Console.WriteLine($"Description: {artwork.Description}");
                 Console.WriteLine($"Creation Date: {artwork.CreationDate}");
                 Console.WriteLine($"Medium: {artwork.Medium}");
-                Console.WriteLine($"Image URL: {artwork.ImageURL}");
-                Console.WriteLine($"Artist ID: {artwork.ArtistID}");
+                Console.WriteLine($"Artist Name: {art.GetArtistNameByArtworkID(artwork.ArtistID)}");
                 Console.ResetColor();
             }
             
@@ -170,10 +171,12 @@ namespace VirtualArtGallery
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Artwork not found.");
+                Console.WriteLine($"Artwork with ArtworkID {artworkID} is not found in the database.");
                 Console.ResetColor();
             }
         }
+
+
 
         private void GetArtwork()
         {
@@ -272,7 +275,7 @@ namespace VirtualArtGallery
             else
             {
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Failed to remove artwork.");
+                Console.WriteLine($"Artwork with ID {artworkID} not found.");
                 Console.ResetColor();
             }
         }
@@ -289,7 +292,8 @@ namespace VirtualArtGallery
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"ID: {artwork.ArtworkID}");
-                    Console.WriteLine($"Title: {artwork.Title}"); 
+                    Console.WriteLine($"Title: {artwork.Title}");
+                    Console.WriteLine($"Artist Name: {art.GetArtistNameByArtworkID(artwork.ArtworkID)}");
                     Console.WriteLine($"Discription: {artwork.Description}");
                     
                     Console.WriteLine(new string('\u2500', 100));
@@ -347,8 +351,7 @@ namespace VirtualArtGallery
                     Console.WriteLine($"Description: {item.Description}");
                     Console.WriteLine($"Creation Date: {item.CreationDate}");
                     Console.WriteLine($"Medium: {item.Medium}");
-                    //Console.WriteLine($"Image URL: {item.ImageURL}");
-                    Console.WriteLine($"Artist ID: {item.ArtistID}");
+                    Console.WriteLine($"Artist Name: {art.GetArtistNameByArtworkID(item.ArtistID)}");
                     Console.WriteLine(new string('\u2500', 100));
 
                 }
@@ -357,7 +360,7 @@ namespace VirtualArtGallery
             }
             else
             {
-                Console.WriteLine("Artwork not found.");
+                Console.WriteLine($"Artwork for UserId {userId} is not found.");
             }
         }
 
