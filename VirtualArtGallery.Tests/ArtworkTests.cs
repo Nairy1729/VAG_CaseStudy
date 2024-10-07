@@ -25,7 +25,6 @@ public class ArtworkTests
     [Test]
     public void WhenValidArtworkIsAdded()
     {
-        // Arrange
         Artwork newArtwork = new Artwork
         {
             ArtworkID = 103,
@@ -37,10 +36,8 @@ public class ArtworkTests
             ArtistID = 1
         };
 
-        // Act
         int result = _artworkManagement.AddArtwork(newArtwork);
 
-        // Assert
         Assert.That(result, Is.GreaterThan(0), "Valid artwork should be added successfully.");
     }
 
