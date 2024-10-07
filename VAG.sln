@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35303.130
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualArtGallery", "VirtualArtGallery\VirtualArtGallery.csproj", "{ACCD2A23-6A34-46FE-96D0-57C22556CF2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualArtGallery", "VirtualArtGallery\VirtualArtGallery.csproj", "{ACCD2A23-6A34-46FE-96D0-57C22556CF2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualArtGallery.Tests", "VirtualArtGallery.Tests\VirtualArtGallery.Tests.csproj", "{AAEBFACC-7272-4040-988A-E8AA1EEB9DB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{ACCD2A23-6A34-46FE-96D0-57C22556CF2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACCD2A23-6A34-46FE-96D0-57C22556CF2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACCD2A23-6A34-46FE-96D0-57C22556CF2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAEBFACC-7272-4040-988A-E8AA1EEB9DB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAEBFACC-7272-4040-988A-E8AA1EEB9DB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAEBFACC-7272-4040-988A-E8AA1EEB9DB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAEBFACC-7272-4040-988A-E8AA1EEB9DB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
