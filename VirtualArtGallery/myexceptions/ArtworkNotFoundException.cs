@@ -9,7 +9,7 @@ namespace VirtualArtGallery.myexceptions
     public class ArtWorkNotFoundException : Exception
     {
         public ArtWorkNotFoundException(int artworkID)
-            : base($"Artwork with ID {artworkID} not found in the database.")
+            : base($"Artwork with ArtworkID {artworkID} not found in the database.")
         {
         }
     }

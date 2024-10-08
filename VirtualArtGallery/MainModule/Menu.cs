@@ -82,38 +82,50 @@ namespace VirtualArtGallery.MainModule
         }
 
         ArtistManagement art = new ArtistManagement();
+
+     
+
         private void GetArtwork1()
         {
-            List<Artwork> artwork = artworkManagement.GetArtwork();
+            List<Artwork> artworkList = artworkManagement.GetArtwork();
 
-            if (artwork.Count != 0)
+            if (artworkList.Count != 0)
             {
+                const int idWidth = 5;
+                const int titleWidth = 40;
+                const int artistWidth = 20;
+                const int mediumWidth = 30;
+                const int artistid = 5;
+
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("Artwork Details:");
-                foreach (var artwork1 in artwork)
-                {
-                    Console.WriteLine($"ID: {artwork1.ArtworkID} , Title: {artwork1.Title} , Artist Name: {art.GetArtistNameByArtworkID(artwork1.ArtworkID)} , Medium: {artwork1.Medium}");
-
-
-                }
-                Console.WriteLine(new string('_', 100));
+                Console.WriteLine($"| {"ID",idWidth} | {"Title",titleWidth} | {"Artist Name",artistWidth} | {"Medium",mediumWidth} | {"ArtistID", artistid}");
+                Console.WriteLine(new string('-', idWidth + titleWidth + artistWidth + mediumWidth + 14)); 
                 Console.ResetColor();
 
-            }
+                foreach (var artwork in artworkList)
+                {
+                    string artistName = art.GetArtistNameByArtworkID(artwork.ArtworkID);
 
+                    Console.WriteLine($"| {artwork.ArtworkID.ToString().PadRight(idWidth)} | {artwork.Title.PadRight(titleWidth)} | {artistName.PadRight(artistWidth)} | {artwork.Medium.PadRight(mediumWidth)} | {artwork.ArtistID.ToString().PadRight(artistid)} |");
+                }
+
+                Console.WriteLine(new string('-', idWidth + titleWidth + artistWidth + mediumWidth + 14));
+            }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Artwork not found.");
-                Console.ResetColor();
             }
 
+            Console.ResetColor();
         }
 
-        
+
+
+
         private void AddArtwork()
         {
-            
+
 
             Console.WriteLine("Enter Artwork Details:");
             Console.Write("Artwork ID: ");
@@ -133,7 +145,7 @@ namespace VirtualArtGallery.MainModule
 
             Artwork newArtwork = new Artwork(artworkID, title, description, creationDate, medium, imageURL, artistID);
             int result = artworkManagement.AddArtwork(newArtwork);
-            if(result > 0)
+            if (result > 0)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.WriteLine("Artwork added successfull!");
@@ -147,6 +159,12 @@ namespace VirtualArtGallery.MainModule
 
             }
         }
+
+
+
+
+
+
 
         private void GetArtworkById()
         {
@@ -220,7 +238,7 @@ namespace VirtualArtGallery.MainModule
                 string title = Console.ReadLine();
                 Console.Write("Description (leave blank to keep current): ");
                 string description = Console.ReadLine();
-                Console.Write("Creation Date (leave blank to keep current): ");
+                Console.Write("Creation Date (leave blank to keep current) (dd-MM-yyyy): ");
                 string creationDate = Console.ReadLine();
                 Console.Write("Medium (leave blank to keep current): ");
                 string medium = Console.ReadLine();
@@ -310,26 +328,47 @@ namespace VirtualArtGallery.MainModule
 
         private void AddArtworkToFavorites()
         {
+            bool continueAdding = true;  // Variable to control whether the user wants to continue
             Console.Write("Enter User ID: ");
             int userId = int.Parse(Console.ReadLine());
-            Console.Write("Enter Artwork ID to add to favorites: ");
-            int artworkId = int.Parse(Console.ReadLine());
 
-            bool isAdded = userFav.AddArtworkToFavorite(userId, artworkId);
-            if (isAdded)
+            do
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Artwork added to favorites successfully!");
-                Console.ResetColor();
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Failed to add artwork to favorites.");
-                Console.ResetColor();
+                //Console.Write("Enter User ID: ");
+                //int userId = int.Parse(Console.ReadLine());
+                Console.Write("Enter Artwork ID to add to favorites: ");
+                int artworkId = int.Parse(Console.ReadLine());
 
-            }
+                bool isAdded = userFav.AddArtworkToFavorite(userId, artworkId);
+                if (isAdded)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Artwork added to favorites successfully!");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Failed to add artwork to favorites.");
+                    Console.ResetColor();
+                }
+
+                // Ask if the user wants to add another artwork
+                Console.WriteLine("Do you want to add another artwork to favorites? (y/n): ");
+                string choice = Console.ReadLine().ToLower();
+
+                if (choice != "y")
+                {
+                    continueAdding = false;  // Exit the loop if the user does not want to continue
+                }
+
+            } while (continueAdding);
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Thank you for updating your favorite artworks!");
+            Console.ResetColor();
         }
+
 
         private void GetUserFavoriteArtworks()
         {

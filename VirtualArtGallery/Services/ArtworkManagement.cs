@@ -27,6 +27,9 @@ namespace VirtualArtGallery.Services
             cmd.Connection = sqlConnection;
         }
 
+
+
+
         public int AddArtwork(Artwork artwork)
         {
             try
@@ -54,7 +57,7 @@ namespace VirtualArtGallery.Services
             catch (Exception ex)
             {
                 Console.WriteLine("An error occurred: " + ex.Message);
-                return -1; 
+                return -1;
             }
             finally
             {
@@ -64,6 +67,10 @@ namespace VirtualArtGallery.Services
                 }
             }
         }
+
+
+
+
 
         public string GetArtistNameByArtworkId(int artworkID)
         {
@@ -244,23 +251,63 @@ namespace VirtualArtGallery.Services
         }
 
 
+        //public bool UpdateArtwork(Artwork artwork)
+        //{
+        //    try
+        //    {
+        //        cmd.CommandText = "UPDATE Artwork SET Title = @Title, Description = @Description, CreationDate = @CreationDate, Medium = @Medium, ImageURL = @ImageURL, ArtistID = @ArtistID WHERE ArtworkID = @ArtworkID";
+        //        cmd.Parameters.Clear();
+        //        cmd.Parameters.AddWithValue("@ArtworkID", artwork.ArtworkID);
+        //        cmd.Parameters.AddWithValue("@Title", artwork.Title);
+        //        cmd.Parameters.AddWithValue("@Description", artwork.Description);
+        //        cmd.Parameters.AddWithValue("@CreationDate", artwork.CreationDate);
+        //        cmd.Parameters.AddWithValue("@Medium", artwork.Medium);
+        //        cmd.Parameters.AddWithValue("@ImageURL", artwork.ImageURL);
+        //        cmd.Parameters.AddWithValue("@ArtistID", artwork.ArtistID);
+
+        //        sqlConnection.Open();
+        //        int rowsAffected = cmd.ExecuteNonQuery();
+        //        return rowsAffected > 0; 
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine("An error occurred: " + ex.Message);
+        //        return false;
+        //    }
+        //    finally
+        //    {
+        //        sqlConnection.Close();
+        //    }
+        //}
+
+
         public bool UpdateArtwork(Artwork artwork)
         {
             try
             {
+                // Convert the CreationDate string to DateTime
+                DateTime creationDate;
+                if (!DateTime.TryParseExact(artwork.CreationDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out creationDate))
+                {
+                    Console.WriteLine("Invalid date format. Please use dd-MM-yyyy format.");
+                    return false; // Return false if the date format is invalid
+                }
+
+                // Prepare SQL command
                 cmd.CommandText = "UPDATE Artwork SET Title = @Title, Description = @Description, CreationDate = @CreationDate, Medium = @Medium, ImageURL = @ImageURL, ArtistID = @ArtistID WHERE ArtworkID = @ArtworkID";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@ArtworkID", artwork.ArtworkID);
                 cmd.Parameters.AddWithValue("@Title", artwork.Title);
                 cmd.Parameters.AddWithValue("@Description", artwork.Description);
-                cmd.Parameters.AddWithValue("@CreationDate", artwork.CreationDate);
+                cmd.Parameters.AddWithValue("@CreationDate", creationDate); // Use DateTime for CreationDate
                 cmd.Parameters.AddWithValue("@Medium", artwork.Medium);
                 cmd.Parameters.AddWithValue("@ImageURL", artwork.ImageURL);
                 cmd.Parameters.AddWithValue("@ArtistID", artwork.ArtistID);
 
+                // Open connection and execute query
                 sqlConnection.Open();
                 int rowsAffected = cmd.ExecuteNonQuery();
-                return rowsAffected > 0; 
+                return rowsAffected > 0;
             }
             catch (Exception ex)
             {
