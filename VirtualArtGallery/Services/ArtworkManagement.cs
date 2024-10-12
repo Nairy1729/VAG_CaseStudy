@@ -320,6 +320,47 @@ namespace VirtualArtGallery.Services
             }
         }
 
+        public List<int> GetUsersByFavoriteArtwork(int artworkID)
+        {
+            List<int> userIds = new List<int>();
+
+            try
+            {
+                cmd.CommandText = "SELECT UserID FROM User_Favorite_Artwork WHERE ArtworkID = @ArtworkID";
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@ArtworkID", artworkID);
+
+                if (sqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    sqlConnection.Open();
+                }
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int userId = reader.GetInt32(0); // The UserID is in the first column of the result set
+                    userIds.Add(userId);
+                }
+
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while retrieving user IDs: " + ex.Message);
+            }
+            finally
+            {
+                if (sqlConnection.State == System.Data.ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+
+            return userIds;
+        }
+
+
 
 
 

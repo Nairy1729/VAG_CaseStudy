@@ -62,5 +62,34 @@ namespace VirtualArtGallery.Services
             return artistName;
         }
 
+        public int GetLastArtworkID()
+        {
+            try
+            {
+                cmd.CommandText = "SELECT ISNULL(MAX(ArtworkID), 0) FROM Artwork"; // Use ISNULL to handle the case where no rows exist
+
+                if (sqlConnection.State != System.Data.ConnectionState.Open)
+                {
+                    sqlConnection.Open();
+                }
+
+                int lastArtworkID = (int)cmd.ExecuteScalar();
+                return lastArtworkID;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while retrieving the last ArtworkID: " + ex.Message);
+                return -1;
+            }
+            finally
+            {
+                if (sqlConnection.State == System.Data.ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+
     }
 }

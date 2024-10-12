@@ -92,7 +92,7 @@ namespace VirtualArtGallery.MainModule
             if (artworkList.Count != 0)
             {
                 const int idWidth = 5;
-                const int titleWidth = 40;
+                const int titleWidth = 35;
                 const int artistWidth = 20;
                 const int mediumWidth = 30;
                 const int artistid = 5;
@@ -123,13 +123,58 @@ namespace VirtualArtGallery.MainModule
 
 
 
+        //private void AddArtwork()
+        //{
+
+
+        //    Console.WriteLine("Enter Artwork Details:");
+        //    Console.Write("Artwork ID: ");
+        //    int artworkID = int.Parse(Console.ReadLine());
+        //    Console.Write("Title: ");
+        //    string title = Console.ReadLine();
+        //    Console.Write("Description: ");
+        //    string description = Console.ReadLine();
+        //    Console.Write("Creation Date (yyyy-mm-dd): ");
+        //    string creationDate = Console.ReadLine();
+        //    Console.Write("Medium: ");
+        //    string medium = Console.ReadLine();
+        //    Console.Write("Image URL: ");
+        //    string imageURL = Console.ReadLine();
+        //    Console.Write("Artist ID: ");
+        //    int artistID = int.Parse(Console.ReadLine());
+
+        //    Artwork newArtwork = new Artwork(artworkID, title, description, creationDate, medium, imageURL, artistID);
+        //    int result = artworkManagement.AddArtwork(newArtwork);
+        //    if (result > 0)
+        //    {
+        //        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        //        Console.WriteLine("Artwork added successfull!");
+        //        Console.ResetColor();
+        //    }
+        //    else
+        //    {
+        //        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        //        Console.WriteLine("Failed to add artwork.");
+        //        Console.ResetColor();
+
+        //    }
+        //}
+
         private void AddArtwork()
         {
-
-
             Console.WriteLine("Enter Artwork Details:");
-            Console.Write("Artwork ID: ");
-            int artworkID = int.Parse(Console.ReadLine());
+
+            // Get the last ArtworkID and increment by 1 for the new artwork
+            int lastArtworkID = art.GetLastArtworkID();
+            if (lastArtworkID == -1)
+            {
+                Console.WriteLine("Error retrieving last ArtworkID.");
+                return;
+            }
+            int newArtworkID = lastArtworkID + 1;
+
+            Console.WriteLine("Automatically generated Artwork ID: " + newArtworkID);
+
             Console.Write("Title: ");
             string title = Console.ReadLine();
             Console.Write("Description: ");
@@ -143,22 +188,32 @@ namespace VirtualArtGallery.MainModule
             Console.Write("Artist ID: ");
             int artistID = int.Parse(Console.ReadLine());
 
-            Artwork newArtwork = new Artwork(artworkID, title, description, creationDate, medium, imageURL, artistID);
+            Artwork newArtwork = new Artwork
+            {
+                ArtworkID = newArtworkID,  // Assign the manually generated ID
+                Title = title,
+                Description = description,
+                CreationDate = creationDate,
+                Medium = medium,
+                ImageURL = imageURL,
+                ArtistID = artistID
+            };
+
             int result = artworkManagement.AddArtwork(newArtwork);
             if (result > 0)
             {
                 Console.ForegroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("Artwork added successfull!");
+                Console.WriteLine("Artwork added successfully!");
                 Console.ResetColor();
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("Failed to add artwork.");
                 Console.ResetColor();
-
             }
         }
+
 
 
 
@@ -281,8 +336,16 @@ namespace VirtualArtGallery.MainModule
 
         private void RemoveArtwork()
         {
+
+            
             Console.Write("Enter Artwork ID to remove: ");
             int artworkID = int.Parse(Console.ReadLine());
+            List<int> list = new List<int>(artworkManagement.GetUsersByFavoriteArtwork(artworkID));
+
+            foreach (int item in list)
+            {
+                userFav.RemoveArtworkFromFavorite(item, artworkID);
+            }
             bool isRemoved = artworkManagement.RemoveArtwork(artworkID);
             if (isRemoved)
             {
