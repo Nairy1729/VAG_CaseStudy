@@ -8,7 +8,7 @@ namespace VirtualArtGallery
 
     public class Program
     {
-        
+
         static void Main(string[] args)
         {
             // Console.BackgroundColor = ConsoleColor.Cyan;
@@ -16,9 +16,15 @@ namespace VirtualArtGallery
             menu.DisplayMenu();
 
 
+
+
+
+
         }
- 
+
+
     }
+
 }
 
-   
+

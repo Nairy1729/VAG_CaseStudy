@@ -9,7 +9,7 @@ using VirtualArtGallery.util;
 
 namespace VirtualArtGallery.Services
 {
-    internal class ArtistManagement
+    public class ArtistManagement
     {
         SqlConnection sqlConnection = null;
         SqlCommand cmd = null;
@@ -66,7 +66,7 @@ namespace VirtualArtGallery.Services
         {
             try
             {
-                cmd.CommandText = "SELECT ISNULL(MAX(ArtworkID), 0) FROM Artwork"; // Use ISNULL to handle the case where no rows exist
+                cmd.CommandText = "SELECT ISNULL(MAX(ArtworkID), 0) FROM Artwork"; 
 
                 if (sqlConnection.State != System.Data.ConnectionState.Open)
                 {
